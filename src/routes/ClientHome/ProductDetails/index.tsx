@@ -6,8 +6,10 @@ import ProductDetailsCard from "../../../components/ProductDetailsCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import { ProductDTO } from "../../../models/product";
+import * as productService from "../../../services/product-service";
+import * as cartService from "../../../services/cart-service";
 
 export default function ProductDetails() {
   const params = useParams();
@@ -17,17 +19,22 @@ export default function ProductDetails() {
   const [product, setProduct] = useState<ProductDTO>();
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/products/${params.productId}`)
-      .then(reponse => {
-        console.log(reponse.data);
-        setProduct(reponse.data);
-      })
+
+    productService.findById(Number(params.productId))
+    .then(reponse => {
+      setProduct(reponse.data);
+    })
       .catch(() =>{
         navigate("/");
       });
   }, []);
 
-  
+  function handleBuyClick(){
+    if(product){
+      cartService.addProduct(product);
+      navigate("/cart");
+    }
+  }
 
   return (
     <main>
@@ -38,7 +45,10 @@ export default function ProductDetails() {
 
         }
         <div className="dsc-btn-page-container">
-          <ButtonPrimary text="Comprar" />
+          <div onClick = {handleBuyClick}>
+            <ButtonPrimary text="Comprar" />
+          </div>
+          
           <Link to={"/"}>
             <ButtonInverse text="Inicio" />
           </Link>

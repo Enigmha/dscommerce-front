@@ -5,21 +5,29 @@ import CatalogCard from "../../../components/CatalogCard";
 import ButtonNextPage from "../../../components/ButtonNextPage";
 import { ProductDTO } from "../../../models/product";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import * as productService from '../../../services/product-service';
 
 export default function Catalog() {
   const [products, setProducts] = useState<ProductDTO[]>([]);
 
+  const[productName, setProductName] = useState("");
+
+
   useEffect(() => {
-    axios.get("http://localhost:8080/products/?size=12").then((response) => {
+    productService.findPageRequest(0, productName)
+    .then(response => {
       setProducts(response.data.content);
     });
-  }, []);
+  }, [productName]); 
+  
+    function handleSearch(searchText: string){
+      setProductName(searchText)
+    }
 
   return (
     <main>
       <section id="catalog-section" className="dsc-container">
-        <SeachBar />
+        <SeachBar onSearch={handleSearch} />
 
         <div className="dsc-catalog-cards dsc-md20 dsc-mt20">          
           {

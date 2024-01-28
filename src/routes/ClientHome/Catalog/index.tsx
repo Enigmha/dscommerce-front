@@ -7,12 +7,15 @@ import { ProductDTO } from "../../../models/product";
 import { useEffect, useState } from "react";
 import * as productService from '../../../services/product-service';
 
+
+
 export default function Catalog() {
   const [products, setProducts] = useState<ProductDTO[]>([]);
 
-  const[productName, setProductName] = useState("");
+  const [productName, setProductName] = useState("");
 
 
+    
   useEffect(() => {
     productService.findPageRequest(0, productName)
     .then(response => {
@@ -21,7 +24,7 @@ export default function Catalog() {
   }, [productName]); 
   
     function handleSearch(searchText: string){
-      setProductName(searchText)
+      setProductName(searchText);
     }
 
   return (

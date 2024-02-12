@@ -64,7 +64,7 @@ main{
     
 }
 
-.des-txt-left{
+.dsc-txt-left{
     text-align: left;
 }
 
@@ -104,10 +104,7 @@ header {
 
 
 
-.dcs-header-admin{
-    background-color: var(--dsc-color-bg-quatenary);
-    color: var(--dsc-color-font-tertiary);
-}
+
 
 
 nav{

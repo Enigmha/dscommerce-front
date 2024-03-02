@@ -33,7 +33,7 @@ export function loginRequest(loginData: CredentialsDTO) {
         accessTokenRepository.save(token);
     }
     export function getAcessToken(){
-        accessTokenRepository.get();
+        return accessTokenRepository.get();
     }
 
 

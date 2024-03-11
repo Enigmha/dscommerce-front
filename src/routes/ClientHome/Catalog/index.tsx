@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import * as productService from '../../../services/product-service';
 
 
+
 type QueryParams ={
   page: number;
   name: string;

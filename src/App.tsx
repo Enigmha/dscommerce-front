@@ -13,19 +13,20 @@ import { history } from "./utils/history";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { AccessTokenPlayloadDTO } from "./models/auth";
 import { ContextToken } from "./utils/context-token";
-import * as authService from './services/auth-service';
-import * as cartService from './services/cart-service';
+import * as authService from "./services/auth-service";
+import * as cartService from "./services/cart-service";
 import { OrderItemDTO } from "./models/order";
 import Confirmation from "./routes/ClientHome/Confimation";
 
 export default function App() {
   const [contextCartCount, setContextCartCount] = useState<number>(0);
 
-  const [contextTokenPayload, setContextTokenPayload] = useState<AccessTokenPlayloadDTO>();
+  const [contextTokenPayload, setContextTokenPayload] =
+    useState<AccessTokenPlayloadDTO>();
 
   useEffect(() => {
     setContextCartCount(cartService.getCart().items.length);
-  
+
     if (authService.isAuthenticated()) {
       const payload = authService.getAccessTokenPayload();
       setContextTokenPayload(payload);
@@ -52,7 +53,11 @@ export default function App() {
               <Route path="login" element={<Login />} />
               <Route
                 path="confirmation/:orderId"
-                element={<Confirmation />}
+                element={
+                  <PrivateRoute>
+                    <Confirmation/>
+                  </PrivateRoute>
+                }
               />
             </Route>
             <Route

@@ -1,11 +1,17 @@
 import { useContext, useState } from "react";
 import "./styles.css";
 import * as cartService from "../../../services/cart-service";
+import * as orderService from "../../../services/order-service";
 import { OrderDTO } from "../../../models/order";
-import { Link } from "react-router-dom";
+
 import { ContextCartCount } from "../../../utils/context-cart";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
+
+  const navigate = useNavigate();
+
   const [cart, setCart] = useState<OrderDTO>(cartService.getCart());
 
   const {setContextCartCount} = useContext(ContextCartCount);
@@ -30,6 +36,19 @@ export default function Cart() {
     setContextCartCount(newCart.items.length);
   }
 
+  function handlePlaceOrderClick(){
+    orderService.placeOrderRequest(cart)
+      .then(response => {
+        cartService.clearCart();
+        setContextCartCount(0);
+        navigate(`/confirmation/${response.data.id}`)
+      });
+
+
+
+    
+  }
+
   return (
     <main>
       <section id="cart-container-section" className="dsc-container">
@@ -39,7 +58,8 @@ export default function Cart() {
           </div>
         ) : (
           <div className="dsc-card dsc-mb20">
-            {cart.items.map((item) => (
+            {
+              cart.items.map((item) => (
               <div
                 key={item.productId}
                 className="dsc-cart-item-container dsc-line-bottom"
@@ -59,7 +79,8 @@ export default function Cart() {
                   R$ {item.subTotal.toFixed(2)}
                 </div>
               </div>
-            ))}
+            ))
+            }
 
             <div className="dsc-cart-total-container">
               <h3>R$ {cart.total.toFixed(2)} </h3>
@@ -68,7 +89,9 @@ export default function Cart() {
         )}
 
         <div className="dsc-btn-page-container">
-          <div className="dsc-btn dsc-btn-blue">Finalizar pedido</div>
+          <div onClick={handlePlaceOrderClick} className="dsc-btn dsc-btn-blue">
+            Finalizar pedido
+          </div>
           <Link to="/catalog">
           <div className="dsc-btn dsc-btn-white">Continuar comprando</div>          
           </Link>

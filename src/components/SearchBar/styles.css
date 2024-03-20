@@ -1,7 +1,8 @@
 .dsc-search-bar{
     height: 40px;
     display: flex;
-    color: var(--dsc-color-font-primary);    
+    color: var(--dsc-color-font-primary);
+    margin: 10px;    
 }
 
 .dsc-search-bar button, .dsc-search-bar input{

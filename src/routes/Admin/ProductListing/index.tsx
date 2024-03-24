@@ -7,6 +7,7 @@ import { ProductDTO } from "../../../models/product";
 import SeachBar from "../../../components/SearchBar";
 import ButtonNextPage from "../../../components/ButtonNextPage";
 import DialoInfo from "../../../components/DialogInfo";
+import DialogConfirmation from "../../../components/DialogConfirmation";
 
 type QueryParams = {
   page: number;
@@ -14,10 +15,15 @@ type QueryParams = {
 };
 
 export default function ProductListing() {
-  const [dialogInfoData, setDialogInfoData] = useState({
+  const [dialogConfirmationData, setDiadialogConfirmationData] = useState({
     visible: false,
-    message: "Operação com sucesso",
+    message: "Tem Certeza",
   });
+
+  const [dialogInfoData, setDialogInfoData] = useState({
+      visible: false,
+      message: "Operação com sucesso",
+    });
 
   const [islastPage, setIsLastPage] = useState(false);
 
@@ -48,11 +54,16 @@ export default function ProductListing() {
   }
 
   function handleDialogClose(){
-    setDialogInfoData({ ...dialogInfoData, visible: false });
+    setDialogInfoData({ ...dialogConfirmationData, visible: false });
   }
 
   function handleDeleteClick(){
-    setDialogInfoData({ ...dialogInfoData, visible: true });
+    setDiadialogConfirmationData({ ...dialogConfirmationData, visible: true });
+  }
+
+  function handleDialogConfirmationAnswer(answer : boolean ){
+    console.log("Resposta", answer);
+    setDiadialogConfirmationData({ ...dialogInfoData, visible: false });
   }
 
   return (
@@ -116,6 +127,14 @@ export default function ProductListing() {
       dialogInfoData.visible && 
       <DialoInfo message={dialogInfoData.message} onDialogClose={handleDialogClose}/>
       }
+
+      dialogInfoData.visible && 
+      <DialogConfirmation
+       message={dialogConfirmationData.message}
+       onDialogAnswer={handleDialogConfirmationAnswer}/>
+      
+
+
     </main>
   );
 }

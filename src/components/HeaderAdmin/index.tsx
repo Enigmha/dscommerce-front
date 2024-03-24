@@ -20,10 +20,7 @@ export default function HeaderAdmin() {
                 <p>Início</p>
               </div>
             </NavLink>
-            <NavLink 
-              to="/admin/products"
-              className={({isActive}) => isActive ? "dsc-menu-item-active" : ""}
-            >
+            <NavLink to="/admin/products">
               <div className="dsc-menu-item">
                 <img src={productsIcons} alt="Cadastro de produtos" />
                 <p>Produtos</p>

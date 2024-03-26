@@ -15,15 +15,16 @@ type QueryParams = {
 };
 
 export default function ProductListing() {
-  const [dialogConfirmationData, setDiadialogConfirmationData] = useState({
-    visible: false,
-    message: "Tem Certeza",
-  });
 
-  const [dialogInfoData, setDialogInfoData] = useState({
-      visible: false,
-      message: "Operação com sucesso",
-    });
+    const [dialogInfoData, setDialogInfoData] = useState({
+        visible: false,
+        message: "Operação com sucesso",
+      });
+
+    const [dialogConfirmationData, setDiadialogConfirmationData] = useState({
+        visible: false,
+        message: "Tem Certeza"
+      });
 
   const [islastPage, setIsLastPage] = useState(false);
 
@@ -54,7 +55,7 @@ export default function ProductListing() {
   }
 
   function handleDialogClose(){
-    setDialogInfoData({ ...dialogConfirmationData, visible: false });
+    setDialogInfoData({ ...dialogInfoData, visible: false });
   }
 
   function handleDeleteClick(){
@@ -63,7 +64,7 @@ export default function ProductListing() {
 
   function handleDialogConfirmationAnswer(answer : boolean ){
     console.log("Resposta", answer);
-    setDiadialogConfirmationData({ ...dialogInfoData, visible: false });
+    setDiadialogConfirmationData({ ...dialogConfirmationData, visible: false });
   }
 
   return (
@@ -125,14 +126,18 @@ export default function ProductListing() {
 
       {
       dialogInfoData.visible && 
-      <DialoInfo message={dialogInfoData.message} onDialogClose={handleDialogClose}/>
+      <DialoInfo 
+        message={dialogInfoData.message} 
+        onDialogClose={handleDialogClose}
+    />
       }
-
-      dialogInfoData.visible && 
+      {
+      dialogConfirmationData.visible && 
       <DialogConfirmation
-       message={dialogConfirmationData.message}
-       onDialogAnswer={handleDialogConfirmationAnswer}/>
-      
+           message={dialogConfirmationData.message}
+           onDialogAnswer={handleDialogConfirmationAnswer}
+           />
+        }
 
 
     </main>
